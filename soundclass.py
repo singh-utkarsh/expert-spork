@@ -10,15 +10,14 @@ import pandas as pd
 
 #Defining the functions
 def extract_feature(file_name):
-																				y, sr = librosa.load(file_name)
-																				stft = np.abs(librosa.stft(y))
-																				mfccs = np.mean(librosa.feature.mfcc(y=y, sr=sr, n_mfcc=20).T,axis=0)
-																				chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sr).T,axis=0)
-																				mel = np.mean(librosa.feature.melspectrogram(y, sr=sr).T,axis=0)
-																				contrast = np.mean(librosa.feature.spectral_contrast(S=stft, sr=sr).T,axis=0)
-																				tonnetz = np.mean(librosa.feature.tonnetz(y=librosa.effects.harmonic(y),
-																				    sr=sr).T,axis=0)
-																				return mfccs,chroma,mel,contrast,tonnetz
+	y, sr = librosa.load(file_name)
+	stft = np.abs(librosa.stft(y)			
+	mfccs = np.mean(librosa.feature.mfcc(y=y, sr=sr, n_mfcc=20).T,axis=0)
+	chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sr).T,axis=0)
+	mel = np.mean(librosa.feature.melspectrogram(y, sr=sr).T,axis=0)
+	contrast = np.mean(librosa.feature.spectral_contrast(S=stft, sr=sr).T,axis=0)					
+	tonnetz = np.mean(librosa.feature.tonnetz(y=librosa.effects.harmonic(y),sr=sr).T,axis=0)
+																				return mfccs,chroma,mel,contrast,tonnetz																		
 							
     
 def parse_files(parent_dir,sub_dirs,file_ext="*.wav"):
