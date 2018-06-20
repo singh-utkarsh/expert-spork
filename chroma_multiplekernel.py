@@ -10,10 +10,10 @@ import pandas as pd
 
 #Defining the functions
 def extract_feature(file_name):
-																				y, sr = librosa.load(file_name)
-																				stft = np.abs(librosa.stft(y))
-																				chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sr).T,axis=0)
-																				return chroma
+			y, sr = librosa.load(file_name)
+			stft = np.abs(librosa.stft(y))
+			chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sr).T,axis=0)
+			return chroma
 							
     
 def parse_files(parent_dir,sub_dirs,file_ext="*.wav"):
