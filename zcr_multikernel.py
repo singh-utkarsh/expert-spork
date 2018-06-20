@@ -10,9 +10,9 @@ import pandas as pd
 
 #Defining the functions
 def extract_feature(file_name):
-																				y, sr = librosa.load(file_name)
-																				zcr=np.mean(librosa.feature.zero_crossing_rate(y).T,axis=0)
-																				return zcr
+	y, sr = librosa.load(file_name)
+	zcr=np.mean(librosa.feature.zero_crossing_rate(y).T,axis=0)
+	return zcr
 							
     
 def parse_files(parent_dir,sub_dirs,file_ext="*.wav"):
