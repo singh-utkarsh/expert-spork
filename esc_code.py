@@ -102,13 +102,13 @@ def multiplekernel(classifier,X_train,y_train,kernelType):#classifier is our svm
  from sklearn.model_selection import GridSearchCV
 
  if(kernelType=='linear'):
-      		parameters = [{'C': [1,2,4,8,16,32,64,128,256,512,1024,2048], 'kernel': ['linear']}]
+      		parameters = [{'C': [1,10,100,1000], 'kernel': ['linear']}]
       		grid_search = GridSearchCV(estimator = classifier, param_grid = parameters, scoring = 'accuracy', n_jobs = -1)
       		grid_search = grid_search.fit(X_train, y_train)
       		best_accuracy = grid_search.best_score_
       		best_parameters = grid_search.best_params_
  elif(kernelType=='rbf'):
-      		parameters = [{'C': [1,2,4,8,16,32,64,128,256,512,1024,2048], 'kernel': ['rbf'],'gamma': [0.01, 0.001, 0.2, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9,1,2,5,10]}]
+      		parameters = [{'C': [1,10,100,1000], 'kernel': ['rbf'],'gamma': [0.01, 0.001, 0.2, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9,1,2,5,10]}]
       		grid_search = GridSearchCV(estimator = classifier, param_grid = parameters, scoring = 'accuracy', n_jobs = -1)
       		grid_search = grid_search.fit(X_train, y_train)
       		best_accuracy = grid_search.best_score_
