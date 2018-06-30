@@ -8,16 +8,16 @@ import json
 
 #Defining the functions
 def extract_feature(file_name):
-																				y, sr = librosa.load(file_name)
-																				stft = np.abs(librosa.stft(y))
-																				mfccs = np.mean(librosa.feature.mfcc(y=y, sr=sr, n_mfcc=20).T,axis=0)
-																				chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sr).T,axis=0)
-																				mel = np.mean(librosa.feature.melspectrogram(y, sr=sr).T,axis=0)
-																				contrast = np.mean(librosa.feature.spectral_contrast(S=stft, sr=sr).T,axis=0)
-																				tonnetz = np.mean(librosa.feature.tonnetz(y=librosa.effects.harmonic(y),
-																				    sr=sr).T,axis=0)
-																				zcr = np.mean(librosa.feature.zero_crossing_rate(y).T,axis=0)
-																				return mfccs,chroma,mel,contrast,tonnetz,zcr
+		y, sr = librosa.load(file_name)
+		stft = np.abs(librosa.stft(y))
+		mfccs = np.mean(librosa.feature.mfcc(y=y, sr=sr, n_mfcc=20).T,axis=0)
+		chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sr).T,axis=0)
+		mel = np.mean(librosa.feature.melspectrogram(y, sr=sr).T,axis=0)
+		contrast = np.mean(librosa.feature.spectral_contrast(S=stft, sr=sr).T,axis=0)
+		tonnetz = np.mean(librosa.feature.tonnetz(y=librosa.effects.harmonic(y),
+		    sr=sr).T,axis=0)
+		zcr = np.mean(librosa.feature.zero_crossing_rate(y).T,axis=0)
+return mfccs,chroma,mel,contrast,tonnetz,zcr
 							
     
 def parse_files(parent_dir,sub_dirs,file_ext="*.wav"):
@@ -146,9 +146,6 @@ mfcc_accuracy_rbf = accuracy_score(y_feature_test,y_pred_rbf)
 test_accuracy.append(mfcc_accuracy_rbf)
 
 
-
-
-
 #chroma
 chroma_classifier_ln=SVC(C=accuracy_dict['chroma_ln'][1]['C'],kernel='linear',decision_function_shape='ovo',probability=True,random_state=0)
 chroma_classifier_ln.fit(X_chroma_train,y_feature_train)
@@ -159,7 +156,6 @@ chroma_classifier_rbf.fit(X_chroma_train,y_feature_train)
 y_pred_rbf = chroma_classifier_rbf.predict(X_chroma_test)
 
 
-from sklearn.metrics import accuracy_score
 chroma_accuracy_ln = accuracy_score(y_feature_test,y_pred_ln)
 test_accuracy.append(chroma_accuracy_ln)
 
@@ -175,7 +171,6 @@ mel_classifier_rbf=SVC(C=accuracy_dict['mel_rbf'][1]['C'],kernel='rbf',gamma=acc
 mel_classifier_rbf.fit(X_mel_train,y_feature_train)
 y_pred_rbf = mel_classifier_rbf.predict(X_mel_test)
 
-from sklearn.metrics import accuracy_score
 mel_accuracy_ln = accuracy_score(y_feature_test,y_pred_ln)
 test_accuracy.append(mel_accuracy_ln)
 
@@ -191,7 +186,6 @@ spectral_classifier_rbf=SVC(C=accuracy_dict['spectral_rbf'][1]['C'],kernel='rbf'
 spectral_classifier_rbf.fit(X_spectral_train,y_feature_train)
 y_pred_rbf = spectral_classifier_rbf.predict(X_spectral_test)
 
-from sklearn.metrics import accuracy_score
 spectral_accuracy_ln = accuracy_score(y_feature_test,y_pred_ln)
 test_accuracy.append(spectral_accuracy_ln)
 
@@ -215,33 +209,33 @@ i=0
 for classifier in classifiers:
                 y=[]
                 y_pred=classifier.predict(X_reg[i])
-                for j in range(len(y_pred)):
-											                if(y_pred[j]==y_feature_val[j]):
-																							            y.append(1)
-											                elif(y_pred[j]!=y_feature_val[j]):
-																												         y.append(0)
+for j in range(len(y_pred)):
+	if(y_pred[j]==y_feature_val[j]):
+			 y.append(1)
+	elif(y_pred[j]!=y_feature_val[j]):
+		         y.append(0)
 					  # Fitting SVR to the dataset
                 regressor = SVR(kernel = 'rbf')
                 regressor.fit(X_reg[i],y)
                 regression.append(regressor)
                 i=i+1
 X_test=[X_mfcc_test,X_mfcc_test,X_chroma_test,X_chroma_test,
-								X_mel_test,X_mel_test,X_spectral_test,X_spectral_test]
+		X_mel_test,X_mel_test,X_spectral_test,X_spectral_test]
 
 
 
 final = np.zeros((400,50),dtype = np.float32)#change shape according to your test dataset
 
 for i in range(8):
-												yreg=regression[i].predict(X_test[i])                
-												ycl=classifiers[i].predict_proba(X_test[i])
-												stk = []
-												for k in range(len(yreg)):
-															y_new=(ycl[k]*yreg[k])
-															stk.append(y_new)
-															
-												arr = np.array(stk,dtype = np.float32)
-												final+=arr
+	yreg=regression[i].predict(X_test[i])                
+	ycl=classifiers[i].predict_proba(X_test[i])
+	stk = []
+	for k in range(len(yreg)):
+				y_new=(ycl[k]*yreg[k])
+				stk.append(y_new)
+
+	arr = np.array(stk,dtype = np.float32)
+	final+=arr
 
 y_pred = []
 
@@ -254,7 +248,7 @@ for i in range(400):
 
 from sklearn.metrics import accuracy_score
 accuracy=accuracy_score(y_pred,y_feature_test)    
-with open('Accuracy.txt','w')as file:
+with open('Accuracy.txt','w')as file:#writing accuracy to text file
       file.write(json.dumps(Accuracy_dictionary))
 print('Accuracy of ensemble classifier is :',accuracy)
 print('Accuracy of different classifiers with best parameters obtained from grid search:',Accuracy_dictionary)
