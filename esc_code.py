@@ -24,8 +24,6 @@ def parse_files(parent_dir,sub_dirs,file_ext="*.wav"):
 	features, labels = np.empty((0,174)), np.empty(0)
 	for sub_dir in sub_dirs:
 		for fn in glob.glob(os.path.join(parent_dir, sub_dir, file_ext)):
-			print(fn)
-			print('\n\n')
 			try:
 				mfccs, chroma, mel, contrast,tonnetz,zcr = extract_feature(fn)
 			except Exception as e:
