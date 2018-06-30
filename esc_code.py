@@ -42,9 +42,9 @@ def parse_files(parent_dir,sub_dirs,file_ext="*.wav"):
 
 
 #Input the directory of your audio files
-parent_dir = '/media/mrinmoy/New Volume/PhD_Work/Data/Environmental_sound_database/audio'
-#tr_sub_dirs = ["Fold-1","Fold-2","Fold-3"]#Training data direcctory
-tr_sub_dirs = ["Fold-1"]#Training data direcctory
+parent_dir = 'audio'
+tr_sub_dirs = ["Fold-1","Fold-2","Fold-3"]#Training data direcctory
+#tr_sub_dirs = ["Fold-1"]#Training data direcctory
 ts_sub_dirs = ["Fold-5"] #test data folder
 val_sub_dirs = ["Fold-4"] #validation data
 X_feature_train, y_feature_train = parse_files(parent_dir,tr_sub_dirs)
